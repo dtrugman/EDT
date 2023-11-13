@@ -4,21 +4,35 @@ from sklearn.decomposition import NMF
 
 from data_common import DAA
 
-def print_pca(df, km):
-    pca = PCA(n_components=2, svd_solver='full').fit_transform(km.df)
-    print_decomposition(pca, df, km)
+def print_pca(df, km, n=2):
+    if not 2 <= n <= 3:
+        raise RuntimeError('Unsupported number of components')
 
-def print_nmf(df, km):
-    nmf = NMF(n_components=2, max_iter=1000).fit_transform(km.df)
-    print_decomposition(nmf, df, km)
+    pca = PCA(n_components=n, svd_solver='full').fit_transform(km.df)
+    __print_decomposition(pca, df, km)
 
-def print_decomposition(decomp, df, km):
+def print_nmf(df, km, n=2):
+    if not 2 <= n <= 3:
+        raise RuntimeError('Unsupported number of components')
+
+    nmf = NMF(n_components=n, max_iter=1000).fit_transform(km.df)
+    __print_decomposition(nmf, df, km)
+
+def __print_decomposition(decomp, df, km):
     cond = df.loc[:,DAA] == 1
     daa_loc = df[cond].index
     non_daa_loc = df[~cond].index
 
     handles = []
     labels = []
+
+    is_3d = (decomp.shape[1] == 3)
+
+    fig = plt.figure()
+    if is_3d:
+        ax = fig.add_subplot(projection='3d')
+    else:
+        ax = fig.add_subplot()
 
     colors = ['b', 'c', 'y', 'm', 'r', 'k', 'g']
     for k in range(km.k):
@@ -27,8 +41,12 @@ def print_decomposition(decomp, df, km):
         k_daa = decomp[list(set(label_k).intersection(daa_loc)), :]
         k_non_daa = decomp[list(set(label_k).intersection(non_daa_loc)), :]
 
-        daa_handler = plt.scatter(k_daa[:,0], k_daa[:,1], marker='x', color=colors[k])
-        non_daa_handler = plt.scatter(k_non_daa[:,0], k_non_daa[:,1], marker='o', color=colors[k])
+        if is_3d:
+            daa_handler = ax.scatter(k_daa[:,0], k_daa[:,1], k_daa[:,2], marker='x', color=colors[k])
+            non_daa_handler = ax.scatter(k_non_daa[:,0], k_non_daa[:,1], k_non_daa[:,2], marker='o', color=colors[k])
+        else:
+            daa_handler = ax.scatter(k_daa[:,0], k_daa[:,1], marker='x', color=colors[k])
+            non_daa_handler = ax.scatter(k_non_daa[:,0], k_non_daa[:,1], marker='o', color=colors[k])
 
         handles.append(daa_handler)
         handles.append(non_daa_handler)
@@ -45,5 +63,5 @@ def print_decomposition(decomp, df, km):
         t = len(label_k)
         print(f'Cluster {k}: DAA[{p}({100*p/t:.2f}%)] Not-DAA[{q}({100*q/t:.2f}%)] Total[{t}]')
 
-    plt.legend(handles=handles, labels=labels, loc='best')
+    ax.legend(handles=handles, labels=labels, loc='best')
     plt.show()

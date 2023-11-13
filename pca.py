@@ -36,7 +36,7 @@ def print_pca(df, km):
         p = len(pca_k_daa)
         q = len(pca_k_non_daa)
         t = len(label_k)
-        print(f'Cluster {k}: DAA[{p}({100*p/t:.2f}%)] Non-DAA[{q}({100*q/t:.2f}%)] Total[{t}]')
+        print(f'Cluster {k}: DAA[{p}({100*p/t:.2f}%)] Not-DAA[{q}({100*q/t:.2f}%)] Total[{t}]')
 
     plt.legend(handles=handles, labels=labels, loc='best')
     plt.show()

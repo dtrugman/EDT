@@ -11,7 +11,7 @@ def print_pca(df, km):
     handles = []
     labels = []
 
-    pca = PCA(2).fit_transform(df)
+    pca = PCA(2).fit_transform(km.df)
 
     colors = ['b', 'c', 'y', 'm', 'r', 'k', 'g']
     for k in range(km.k):

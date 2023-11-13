@@ -25,8 +25,13 @@ def print_pca(df, km):
 
         handles.append(daa_handler)
         handles.append(non_daa_handler)
-        labels.append(f'{k}-DAA')
-        labels.append(f'{k}-Not-DAA')
+
+        if km.k == 1:
+            labels.append(f'DAA')
+            labels.append(f'Not-DAA')
+        else:
+            labels.append(f'{k}-DAA')
+            labels.append(f'{k}-Not-DAA')
 
         p = len(pca_k_daa)
         q = len(pca_k_non_daa)

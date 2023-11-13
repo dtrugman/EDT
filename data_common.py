@@ -21,5 +21,6 @@ PERSONALITY_FEATURES = [
     'Locus'
 ]
 
+SEX = 'Sex'
 DAA = 'DAA'
 CLUSTER = 'Cluster'

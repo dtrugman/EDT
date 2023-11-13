@@ -8,8 +8,8 @@ class KMeans:
     RANDOM_STATE = None # Random
     DISTANCE_METRIC = 'euclidean'
 
-    def __init__(self, df, k, init=INIT, n_init=N_INIT, random_state=RANDOM_STATE):
-        self.__df = df
+    def __init__(self, df, k, labels=[], init=INIT, n_init=N_INIT, random_state=RANDOM_STATE):
+        self.__df = df if not labels else df[labels]
         self.__k = k
         self.__clusterer = SK_KMeans(n_clusters=self.__k, init=init, n_init=n_init, random_state=random_state)
         self.__pred = self.__clusterer.fit_predict(self.__df)

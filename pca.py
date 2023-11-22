@@ -5,17 +5,13 @@ from sklearn.decomposition import NMF
 
 from data_common import DAA
 
-def print_pca(df, features, labels, n=2):
-    if not 2 <= n <= 3:
-        raise RuntimeError('Unsupported number of components')
-
+def print_pca(df, features, labels):
+    n = 2
     pca = PCA(n_components=n, svd_solver='full').fit_transform(df[features])
     print_decomposition(pca, df, labels)
 
-def print_nmf(df, features, labels, n=2, max_iter=1000):
-    if not 2 <= n <= 3:
-        raise RuntimeError('Unsupported number of components')
-
+def print_nmf(df, features, labels, max_iter=1000):
+    n = 2
     nmf = NMF(n_components=n, max_iter=max_iter).fit_transform(df[features])
     print_decomposition(nmf, df, labels)
 
@@ -27,13 +23,10 @@ def print_decomposition(decomp, df, labels):
     legend_handles = []
     legend_labels = []
 
-    is_3d = (decomp.shape[1] == 3)
-
     fig = plt.figure()
-    if is_3d:
-        ax = fig.add_subplot(projection='3d')
-    else:
-        ax = fig.add_subplot()
+    ax = fig.add_subplot()
+    ax.set_xlim((-4, 4))
+    ax.set_ylim((-4, 4))
 
     colors = ['b', 'c', 'y', 'm', 'r', 'k', 'g']
     unique_labels = np.unique(labels)
@@ -44,12 +37,8 @@ def print_decomposition(decomp, df, labels):
         k_daa = decomp[list(set(k_indices).intersection(daa_loc)), :]
         k_non_daa = decomp[list(set(k_indices).intersection(non_daa_loc)), :]
 
-        if is_3d:
-            daa_handler = ax.scatter(k_daa[:,0], k_daa[:,1], k_daa[:,2], marker='x', color=colors[k])
-            non_daa_handler = ax.scatter(k_non_daa[:,0], k_non_daa[:,1], k_non_daa[:,2], marker='o', color=colors[k])
-        else:
-            daa_handler = ax.scatter(k_daa[:,0], k_daa[:,1], marker='x', color=colors[k])
-            non_daa_handler = ax.scatter(k_non_daa[:,0], k_non_daa[:,1], marker='o', color=colors[k])
+        daa_handler = ax.scatter(k_daa[:,0], k_daa[:,1], marker='x', color=colors[k])
+        non_daa_handler = ax.scatter(k_non_daa[:,0], k_non_daa[:,1], marker='o', color=colors[k])
 
         legend_handles.append(daa_handler)
         legend_handles.append(non_daa_handler)

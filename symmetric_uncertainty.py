@@ -39,15 +39,15 @@ class SUT:
 Samples:               {self.len}
 DAA (X) total:         {self.__daa_counts.tolist()}
 DAA (X) p:             {self.__daa_p.tolist()}
-DAA (X) entropy:       {self.__daa_entropy}
+DAA (X) entropy:       {self.__daa_entropy:.4f}
 Cluster (Y) total:     {self.__cluster_counts.tolist()}
 Cluster (Y) p:         {self.__cluster_p.tolist()}
-Cluster (Y) entropy:   {self.__cluster_entropy}
-Joint entropy:         {self.__joint_entropy}
-Mutual info:           {self.__mutual_information}
-Symmetric uncertainty: {self.symmetric_uncertainty}
-KL-divergence:         {self.kl_divergence}
-Total var distance:    {self.total_variation_distance}
+Cluster (Y) entropy:   {self.__cluster_entropy:.4f}
+Joint entropy:         {self.__joint_entropy:.4f}
+Mutual info:           {self.__mutual_information:.4f}
+Symmetric uncertainty: {self.symmetric_uncertainty:.4f}
+KL-divergence:         {self.kl_divergence:.4f}
+Total var distance:    {self.total_variation_distance:.4f}
 {self.__df_counts.to_string()}
 {self.__df_p.to_string()}
 '''

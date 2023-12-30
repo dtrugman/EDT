@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def print_per_game_kmeans(km, labels, print_labels=False, plot_graph=False):
+def print_per_game_kmeans(km, labels, ylim=[1.5,4], print_labels=False, plot_graph=False):
     if print_labels:
         print('Labels:', km.labels, '\n')
 
@@ -20,8 +20,14 @@ def print_per_game_kmeans(km, labels, print_labels=False, plot_graph=False):
         graph_labels = labels[g]
         graph_centers = km.centroids[:, g * labels_count : (g+1) * labels_count]
 
-        for k in range(km.k):
-            axs[g].plot(graph_labels, graph_centers[k,:], label=f'Cluster #{k}')
+        if games_count == 1:
+            ax = axs
+        else:
+            ax = axs[g]
 
-        axs[g].set_ylim([1.5, 4])
-        axs[g].legend(loc='upper right')
+        for k in range(km.k):
+            ax.plot(graph_labels, graph_centers[k,:], label=f'Cluster #{k}')
+
+        if ylim:
+            ax.set_ylim(ylim)
+        ax.legend(loc='upper right')

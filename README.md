@@ -21,12 +21,12 @@ The raw data for this research is stored as two separate Mendeley datasets:
 - [Allais dataset - TBD](TBD)
 
 Manually download the files from the Mendeley platform and place them in the `data` directory (which you will need to create).
-Note: Both datasets include the exact same `raw_data_demographic.csv` file.
 
 The final result should be a `data` directory with three files:
 - `raw_data_ellsberg.csv`
+- `demographic_ellsberg.csv`
 - `raw_data_allais.csv`
-- `raw_data_demographic.csv`
+- `demographic_allais.csv`
 
 To preprocess the data into a canonical format that you can then use for machine-learning, please execute the following notebooks:
 - `data_processing_ellsberg.ipynb`
